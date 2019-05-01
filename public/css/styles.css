@@ -1,0 +1,56 @@
+body {
+
+    color: #333333;
+    font-family: arial;
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 0 16px;
+
+}
+
+h1 {
+    margin-top: 60px;
+    font-size: 64px;
+    margin-bottom: 16px;
+    text-align: center
+}
+
+
+
+#player {
+    margin-top: 100px;
+    margin-left: -50px;
+}
+
+#progressBar {
+    width: 650px;
+    height: 37px;
+    margin-left: -30px;
+    background-color: white;
+    margin-top: 5px;
+}
+
+#line{
+    border-style: solid;
+    border-color: black;
+    margin-left: 52px;
+    background: white;
+}
+
+#controls {
+    display: inline;
+}
+
+#square {
+    width: 15px;
+    height: 15px;
+    background: white;
+    margin-left: 50px;
+    margin-top: -10px;
+    border: black;
+    border-style: solid;
+}
+
+.btn-group {
+    margin-left: -50px;
+}
