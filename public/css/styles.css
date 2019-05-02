@@ -25,7 +25,7 @@ h1 {
 #progressBar {
     width: 650px;
     height: 37px;
-    margin-left: -30px;
+    margin-left: 10px;
     background-color: white;
     margin-top: 5px;
 }
@@ -33,7 +33,7 @@ h1 {
 #line{
     border-style: solid;
     border-color: black;
-    margin-left: 52px;
+    margin-left: 0px;
     background: white;
 }
 
@@ -45,10 +45,11 @@ h1 {
     width: 15px;
     height: 15px;
     background: white;
-    margin-left: 50px;
     margin-top: -10px;
     border: black;
     border-style: solid;
+    position: absolute;
+    left: 224;
 }
 
 .btn-group {

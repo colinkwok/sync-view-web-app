@@ -19,22 +19,54 @@
       $(document).ready(function() {
         setInterval(function() {
           var currentTime = player.getCurrentTime();
+          //console.log('Current time:' + currentTime)
           var duration = player.getDuration();
           var currentFraction = currentTime/duration
-          var sqLocation = currentFraction*600 + 50
-          console.log(sqLocation)
-          $('#square').css("margin-left", sqLocation+ "px");
+          var sqLocation = currentFraction*650
+          //console.log(sqLocation)
+          $('#square').css('position', 'relative')
+          $('#square').css("left", sqLocation);
         }, 200);
       });
     </script>
     
     <script>
       $(document).ready(function(){
-        $('#progressBar').click(function(){
-          var x = $(this).offset();
-          console.log("Top: " + x.top + " Left: " + x.left);
+        $('#line').click(function(e) {
+          
+          var divOffset = $('#line').offset();
+          console.log('divOffset: '+divOffset.left)
+          
+          var position = e.pageX;
+          console.log('position: ' + position)
+          var timeLocation = position - divOffset.left
+          var fraction = timeLocation / 650
+          console.log('fraction: ' + fraction)
+          console.log('duration: ' + player.getDuration())
+          var duration = player.getDuration();
+          console.log('time: ' + fraction * duration)
+          //var y = e.pageY;
+          $('#square').css('position', 'relative');
+          $('#square').css("left", timeLocation);
+          player.seekTo(fraction*duration, true);
+          //$('#square').css("top", y);
+        })
+        
+        //$('#line').mousemove(function (event) {
+        //    var x = event.pageX
+        //    console.log(x)
+        //})
+        
+        //$('#line').click(function(){
+        //  var x = $(this).offset();
+        //  var relativeX = $('#square').offset()
+        //  var lengthPlayed = relativeX.left - x.left
+        //  var fraction = lengthPlayed / 650
+          //console.log(fraction)
+        //  console.log("Top: " + x.top + " Left: " + x.left);
+          //console.log("Top relativeX: " + relativeX.top + " Left relativeX: " + relativeX.left)
           //$('#square').css("margin-left", "80px");
-        });
+        //});
       });
     </script>
     
@@ -93,7 +125,7 @@
       //    the player should play for six seconds and then stop.
       var done = false;
       function onPlayerStateChange(event) {
-        console.log(event.data)
+        //console.log(event.data)
         //if (event.data == YT.PlayerState.PLAYING && !done) {
         //  setTimeout(stopVideo, 6000);
         //  done = true;
