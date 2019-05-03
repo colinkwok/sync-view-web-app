@@ -16,6 +16,7 @@
     
     <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
     <script>
+      
       $(document).ready(function() {
         setInterval(function() {
           var currentTime = player.getCurrentTime();
@@ -33,7 +34,6 @@
     <script>
       $(document).ready(function(){
         $('#line').click(function(e) {
-          
           var divOffset = $('#line').offset();
           console.log('divOffset: '+divOffset.left)
           
@@ -78,6 +78,7 @@
         $('#playVideo').click(function(e){
           data = {state: 'play', time: player.getCurrentTime()}
           socket.emit('playEvent', data)
+          /*
           socket.on('play', function(msg) {
             if(msg.state = 'play') {
               player.seekTo(msg.time, true)
@@ -86,11 +87,14 @@
             }
           //console.log('client will:'  + msg.state)
           })
+          */
         })
         $('#pauseVideo').click(function(e){
           data = {state: 'pause', time: player.getCurrentTime()}
           socket.emit('pauseEvent', data)
+          /*
           socket.on('pause', function(msg) {
+            
             if(msg.state = 'pause') {
               player.seekTo(msg.time, true)
               player.pauseVideo();
@@ -98,6 +102,7 @@
             }
             //console.log('client will:'  + msg.state)
           })
+          */
         })
         $('#line').click(function(e){
           var divOffset = $('#line').offset();
@@ -109,8 +114,9 @@
           //$('#square').css("left", timeLocation);
           //player.seekTo(fraction*duration, true);
           var time = fraction * duration
-          data = {state: 'seek', time: time}
+          data = {state: 'seek', time: time, isPlaying: player.getPlayerState()}
           socket.emit('seekEvent', data)
+          /*
           socket.on('seek', function(msg) {
             if(msg.state = 'seek') {
               player.seekTo(msg.time, true);
@@ -118,8 +124,8 @@
             }
             //console.log('client will:'  + msg.state)
           })
+          */
         })
-        
         socket.emit('hello to server')
         socket.on('hello to client', function() {
           console.log('recieved hello from server')
@@ -146,17 +152,49 @@
           }
         })
         */
-        
-        
       });
       
+  </script>
+
+  <script>
+    var socket = io();
+    socket.on('play', function(msg) {
+      if(msg.state = 'play') {
+        player.seekTo(msg.time, true)
+        player.playVideo();
+        console.log('client will:'  + msg.state)
+      }
+    })
+    socket.on('pause', function(msg) {     
+      if(msg.state = 'pause') {
+        player.seekTo(msg.time, true)
+        player.pauseVideo();
+        console.log('client will:'  + msg.state)
+      }
+    })
+    socket.on('seek', function(msg) {
+      console.log('reached')
+      if(msg.state = 'seek') {
+        if(msg.isPlaying = 1) {
+          player.playVideo();
+          player.seekTo(msg.time, true);
+          console.log('client will:'  + msg.state)
+        } else if (msg.isPlaying = 2) {
+          player.playVideo();
+          player.seekTo(msg.time, true);
+          console.log('client will:'  + msg.state)
+        }
+        //player.seekTo(msg.time, true);
+        //console.log('client will:'  + msg.state)
+      }
+    })
   </script>
     
     <div id="player"></div>
     <div id="controls">
       <div class = "btn-group" style="float:left;">
-          <button id="playVideo" type="button" class="btn btn-success" onclick="player.playVideo()"><span class="glyphicon glyphicon-play"></span></button>
-          <button id="pauseVideo" type="button" class="btn btn-danger" onclick="player.pauseVideo()"><span class="glyphicon glyphicon-pause"></span></button>
+          <button id="playVideo" type="button" class="btn btn-success"><span class="glyphicon glyphicon-play"></span></button>
+          <button id="pauseVideo" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-pause"></span></button>
       </div>
       <div id ="progressBar">
           <div id="line"></div>

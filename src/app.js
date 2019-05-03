@@ -44,6 +44,7 @@ io.on('connection', function(socket) {
     socket.on('seekEvent', function(msg) {
         console.log('Sending event from server to client')
         console.log(msg.state)
+        console.log(msg.isPlaying)
         io.emit('seek', msg)
     })
     
