@@ -69,6 +69,88 @@
         //});
       });
     </script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/socket.io.js"> </script>
+    <script>
+      var socket = io();
+      $(document).ready(function(){
+        $('#playVideo').click(function(e){
+          data = {state: 'play', time: player.getCurrentTime()}
+          socket.emit('playEvent', data)
+          socket.on('play', function(msg) {
+            if(msg.state = 'play') {
+              player.seekTo(msg.time, true)
+              player.playVideo();
+              console.log('client will:'  + msg.state)
+            }
+          //console.log('client will:'  + msg.state)
+          })
+        })
+        $('#pauseVideo').click(function(e){
+          data = {state: 'pause', time: player.getCurrentTime()}
+          socket.emit('pauseEvent', data)
+          socket.on('pause', function(msg) {
+            if(msg.state = 'pause') {
+              player.seekTo(msg.time, true)
+              player.pauseVideo();
+              console.log('client will:'  + msg.state)
+            }
+            //console.log('client will:'  + msg.state)
+          })
+        })
+        $('#line').click(function(e){
+          var divOffset = $('#line').offset();
+          var position = e.pageX;
+          var timeLocation = position - divOffset.left
+          var fraction = timeLocation / 650
+          var duration = player.getDuration();
+          //$('#square').css('position', 'relative');
+          //$('#square').css("left", timeLocation);
+          //player.seekTo(fraction*duration, true);
+          var time = fraction * duration
+          data = {state: 'seek', time: time}
+          socket.emit('seekEvent', data)
+          socket.on('seek', function(msg) {
+            if(msg.state = 'seek') {
+              player.seekTo(msg.time, true);
+              console.log('client will:'  + msg.state)
+            }
+            //console.log('client will:'  + msg.state)
+          })
+        })
+        
+        socket.emit('hello to server')
+        socket.on('hello to client', function() {
+          console.log('recieved hello from server')
+        })
+        
+        /*
+        socket.on('event', function() {
+          console.log('Server to Client Works')
+        })
+        */
+
+        /*
+        socket.on('playerEvent', function(msg){
+          console.log('Reached')
+          if(msg.state = 'play') {
+            console.log('here')
+            player.playVideo();
+          } else if (msg.state = 'pause') {
+            console.log('hi')
+            player.pauseVideo();
+          } else if (msg.state = 'seek') {
+            console.log('hey')
+            player.seekTo(msg.time, true);
+          }
+        })
+        */
+        
+        
+      });
+      
+  </script>
     
     <div id="player"></div>
     <div id="controls">
@@ -135,6 +217,7 @@
         player.stopVideo();
       }
     </script>
+    
 
 </body>
 
